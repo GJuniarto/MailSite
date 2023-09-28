@@ -1,4 +1,7 @@
 class MainController {
+    static home(req, res) {
+        res.render('home.ejs')
+    }
     static register(req, res) {
         const errors = req.query.err;
         res.render('registerPage.ejs', { errors })

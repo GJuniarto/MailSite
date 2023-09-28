@@ -6,6 +6,9 @@ const TagController = require('../controllers/TagController');
 const { isLogIn } = require('../helpers/helper');
 const ProfileController = require('../controllers/ProfileController');
 
+//GET /
+router.get('/', MainController.home)
+
 //GET and POST /register
 router.get('/register', MainController.register);
 router.post('/register', UserController.postRegister);

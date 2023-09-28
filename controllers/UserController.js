@@ -1,3 +1,4 @@
+const { Op, where } = require('sequelize');
 const { User, Profile, Email, Tag } = require('../models');
 const bcrypt = require('bcryptjs');
 
@@ -44,8 +45,20 @@ class UserController {
     }
     static history(req, res) {
         const UserId = req.session.userId;
-        console.log(UserId);
-        Email.findAll({ where: { UserId }, include: { model: Tag } })
+        const { subject, sendTo } = req.query;
+        const whereOption = { where: { UserId } };
+        if (subject) {
+            whereOption.where.subject = {
+                [Op.iLike]: `%${subject}%`
+            }
+        }
+
+        if (sendTo) {
+            whereOption.where.sentTo = {
+                [Op.iLike]: `%${sendTo}%`
+            }
+        }
+        Email.findAll({ ...whereOption, include: { model: Tag } })
             .then(emails => {
                 // res.send(emails);
                 res.render('historyPage.ejs', { emails })
