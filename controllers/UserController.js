@@ -12,7 +12,13 @@ class UserController {
             .then(() => {
                 res.redirect('/login');
             })
-            .catch(err => res.send(err));
+            .catch(err => {
+                if (err.name === "SequelizeValidationError") {
+                    const errors = err.errors.map(e => e.message);
+                    return res.redirect('/register?err=' + errors);
+                }
+                return res.send(err);
+            });
     }
     static postLogin(req, res) {
         const { email, password } = req.body;
