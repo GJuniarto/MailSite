@@ -11,6 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Email.belongsTo(models.User);
+      Email.hasMany(models.EmailTag);
+      Email.belongsToMany(models.Tag, { through: models.EmailTag });
+    }
+    showStatus() {
+      if (this.status === "Sent") {
+        return "Message succesfully sent!"
+      } else {
+        return "Message is failed to sent!"
+      }
     }
   }
   Email.init({

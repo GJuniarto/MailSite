@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Profile.belongsTo(models.User);
+    }
+    get inputDate() {
+      return this.dateOfBirth.toISOString().split('T')[0];
     }
   }
   Profile.init({
